@@ -1,19 +1,14 @@
 package com.authetication.session.Authetication.Session.v1.service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.authetication.session.Authetication.Session.errorExceptions.ResourceBadRequestException;
 import com.authetication.session.Authetication.Session.v1.dto.CreateUserRequest;
 import com.authetication.session.Authetication.Session.v1.dto.UserResponse;
 import com.authetication.session.Authetication.Session.v1.entity.UserEntity;
 import com.authetication.session.Authetication.Session.v1.repository.UserRepository;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -97,8 +92,12 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		Optional<UserEntity> user = userRepository.findByLogin(login);
 		if (!user.isPresent())
-			throw new UsernameNotFoundException("Usuário não encontrado");
-		return new User(user.get().getEmail(), user.get().getPassword(),
-				true, true, true, true, user.get().getAuthorities());
+			throw new UsernameNotFoundException("Usuário não encontrado, por favor cheque suas credenciais.");
+		return new User(user.get().getLogin(), user.get().getPassword(),
+				true, true, true, true, new ArrayList<>());
+	}
+
+	public @Valid @NotBlank UserEntity findUserByLogin(String login) {
+		return userRepository.findByLogin(login).get();
 	}
 }
