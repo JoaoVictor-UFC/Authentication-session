@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 
 	@Query("SELECT u FROM UserEntity u WHERE u.login = ?1")
-	Optional<UserEntity> findByUsername(String login);
+	Optional<UserEntity> findByLogin(String login);
 
 	@Query("SELECT u FROM UserEntity u WHERE u.email = ?1")
 	Optional<UserEntity> findByEmail(String email);

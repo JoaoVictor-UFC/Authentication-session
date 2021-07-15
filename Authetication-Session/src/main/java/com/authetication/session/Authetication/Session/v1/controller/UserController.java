@@ -19,7 +19,6 @@ import java.net.URI;
 @Api(value = "User Service", tags = { "User Service" })
 @Valid
 @Controller
-@RequestMapping("/v1/users")
 public class UserController {
 
     @Autowired private UserService userService;
@@ -46,7 +45,7 @@ public class UserController {
                                                                   @RequestParam(value = "end", required = false, defaultValue = "") String end,
                                                                   @RequestParam(value = "name", required = false, defaultValue = "") String name) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<UserResponse> response = (Page<UserResponse>) userService.listUserPagination(pageRequest, end, start, name);
+        Page<UserResponse> response = userService.listUserPagination(pageRequest, end, start, name);
         return ResponseEntity.ok().body(response);
     }
 }

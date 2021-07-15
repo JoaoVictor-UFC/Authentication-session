@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +23,7 @@ import javax.validation.constraints.NotNull;
 
 @Service
 @Transactional
-public class UserService implements IUserService {
+public class UserService{
 
 	@Autowired private UserRepository userRepository;
 
@@ -46,7 +43,7 @@ public class UserService implements IUserService {
 	}
 
 	public boolean checkLogin(@Valid @NotNull String login){
-		Optional<UserEntity> user = userRepository.findByUsername(login);
+		Optional<UserEntity> user = userRepository.findByLogin(login);
 		if (user.isPresent()){
 			return true;
 		}
@@ -100,22 +97,6 @@ public class UserService implements IUserService {
 		userModelPage = new PageImpl<>(userModels.subList(start2.intValue(), end2.intValue()), page, userModels.size());
 
 		return userModelPage;
-	}
-	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<UserEntity> user = userRepository.findByUsername(username);
-		if (!user.isPresent())
-			throw new UsernameNotFoundException("Usuário não encontrado, por favor cheque suas credenciais.");
-		return new User(user.get().getLogin(), user.get().getPassword(), true, true, true, true, new ArrayList<>());
-	}
-	
-	public UserEntity findUserByUserName(String userName) throws Exception {
-		Optional<UserEntity> user = userRepository.findByUsername(userName);
-		if (user.isPresent()) {
-			return user.get();
-		}
-		throw new Exception("Usuario não encontrado ou não ativo");
 	}
 
 	public UserResponse fromUserEntityToUserResponse(@Valid @NotBlank UserEntity user) {
