@@ -1,0 +1,27 @@
+version: '3'
+
+
+services:
+
+  authetication-session-ws:
+    container_name: authetication-session-ws
+    restart: always
+    build: ./autheticationsession
+    ports: 
+      - "8888:8888"
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /temp

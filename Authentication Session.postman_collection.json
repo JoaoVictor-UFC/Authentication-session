@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "d39ad267-ff73-4e50-a2f0-083b18db895f",
+		"name": "Authentication Session",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Usuarios",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "key",
+							"value": "Autho",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FvQGVtYWlsLmNvbSIsImV4cCI6MTYyNjQ5MDM3OH0.j8FgOTksHSAoByIsrL9WJmbgZSIu82eKXdZZsIPDR1HC7RyTlXtke-V_PLnyUCT47PC2U0n3M3v2b8WFlt1yCg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8888/user/pagination?page=1&limit=20",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user",
+						"pagination"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();\r",
+							"pm.globals.set(\"token\", res.data.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\" : \"joao\",\r\n    \"password\" : \"123456\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8888/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Usuario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FvQGVtYWlsLmNvbSIsImV4cCI6MTYyNjQ5MDM3OH0.j8FgOTksHSAoByIsrL9WJmbgZSIu82eKXdZZsIPDR1HC7RyTlXtke-V_PLnyUCT47PC2U0n3M3v2b8WFlt1yCg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"admin\": false,\r\n  \"email\": \"vivi@email.com\",\r\n  \"login\": \"vivi\",\r\n  \"name\" : \"Vivianne\",\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Senha",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FvQGVtYWlsLmNvbSIsImV4cCI6MTYyNjQ5MDM3OH0.j8FgOTksHSAoByIsrL9WJmbgZSIu82eKXdZZsIPDR1HC7RyTlXtke-V_PLnyUCT47PC2U0n3M3v2b8WFlt1yCg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"vivi@outlook.com\",\r\n  \"password\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/user/update-passoword/id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user",
+						"update-passoword",
+						"id=1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
