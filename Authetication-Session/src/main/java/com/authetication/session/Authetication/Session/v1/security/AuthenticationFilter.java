@@ -87,4 +87,5 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         res.getWriter().write(gson.toJson(custom));
 
     }
+
 }

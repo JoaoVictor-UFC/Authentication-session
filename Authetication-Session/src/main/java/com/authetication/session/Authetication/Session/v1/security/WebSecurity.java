@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,9 +34,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.POST,environment.getProperty("user.login.url.path")).permitAll()
+                .antMatchers(HttpMethod.POST,environment.getProperty("user.create.url.path")).permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/v2/api-docs/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .addFilter(getAuthenticationFilter());
+                .addFilter(getAuthenticationFilter())
+                .addFilter(new AuthorizationFilterRoute(authenticationManager(),environment));
         http.cors().configurationSource(corsConfigurationSource());
     }
 
@@ -65,4 +73,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         return source;
     }
+
 }

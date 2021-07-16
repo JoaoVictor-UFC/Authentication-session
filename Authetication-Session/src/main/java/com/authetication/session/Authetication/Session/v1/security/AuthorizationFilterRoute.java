@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AuthorizationFilter2 extends BasicAuthenticationFilter {
+public class AuthorizationFilterRoute  extends BasicAuthenticationFilter {
 
     Environment environment;
 
-    public AuthorizationFilter2(AuthenticationManager authManager, Environment environment) {
+    public AuthorizationFilterRoute(AuthenticationManager authManager, Environment environment) {
         super(authManager);
         this.environment = environment;
     }

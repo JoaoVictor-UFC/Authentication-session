@@ -1,9 +1,9 @@
 package com.authetication.session.Authetication.Session.v1.service;
 
-import java.time.LocalDateTime;
-import java.util.*;
-
+import com.authetication.session.Authetication.Session.errorExceptions.ResourceBadRequestException;
 import com.authetication.session.Authetication.Session.v1.dto.CreateUserRequest;
+import com.authetication.session.Authetication.Session.v1.dto.UpdatePasswordResponse;
+import com.authetication.session.Authetication.Session.v1.dto.UpdatePasswordResquest;
 import com.authetication.session.Authetication.Session.v1.dto.UserResponse;
 import com.authetication.session.Authetication.Session.v1.entity.UserEntity;
 import com.authetication.session.Authetication.Session.v1.repository.UserRepository;
@@ -21,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -55,10 +58,10 @@ public class UserService implements UserDetailsService {
 	public UserResponse createUser(@Valid @NotNull CreateUserRequest req){
 
 		if (checkEmail(req.getEmail())){
-			throw new RuntimeException("Email existing");
+			throw new ResourceBadRequestException("Email existing");
 		}
 		if (checkLogin(req.getLogin())){
-			throw new RuntimeException("Login existing");
+			throw new ResourceBadRequestException("Login existing");
 		}
 
 		UserEntity res = new UserEntity();
@@ -95,6 +98,23 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("Usuário não encontrado, por favor cheque suas credenciais.");
 		return new User(user.get().getLogin(), user.get().getPassword(),
 				true, true, true, true, new ArrayList<>());
+	}
+
+	public UpdatePasswordResponse recoverPassword(@Valid UpdatePasswordResquest req, Long idUser){
+		Optional<UserEntity> user = userRepository.findById(idUser);
+		UpdatePasswordResponse res = new UpdatePasswordResponse();
+		try {
+			if (user.get().isAdmin()){
+				Optional<UserEntity> u = userRepository.findByEmail(req.getEmail());
+				u.get().setPassword(bCryptPasswordEncoder.encode(req.getPassword()));
+				saveUser(u.get());
+				res.setMessage("Senha Alterada com sucesso");
+				return res;
+			}else {res.setMessage("Usuario sem Privilegios ");}
+		}catch (Exception e){
+			throw new ResourceBadRequestException("Aconteceu um error durante o processo");
+		}
+		return res;
 	}
 
 	public @Valid @NotBlank UserEntity findUserByLogin(String login) {
