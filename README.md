@@ -7,15 +7,19 @@ Tabela de conteúdos
 ================= 
 <!--ts-->
  * [Sobre](#sobre) 
- 
-  *  * [Pre Requisitos](#pre-requisitos)
+  
+ *  * [Documentação] (#documentacao)
+ *  * [Pre Requisitos](#pre-requisitos)
  *  * [Executando a aplicação](#rodando)
  * * [Tecnologias](#tecnologias)
  *  * [Autor](#autor)
  <!--te-->
- 
- <!-- Altere os Pré-requisitos -->
 
+### Documentação<a id="documentacao"></a>
+ 
+ Documentaçao do projeto foi gerada pelo Swagger-ui
+ Então depois de roda a aplicação acesse http://localhost:8888/swagger-ui/
+ 
 ### 🛒 Pré-requisitos<a id="pre-requisitos"></a>
 
   Para roda a aplicação bastar ter o docker instalado na sua maquina:
@@ -42,7 +46,7 @@ Tabela de conteúdos
  # Acesse http://localhost:8888
   Utilizando o insomnia ou postman, deixei as colletions no repositorio
  ````
- <!-- Altere as Tecnologias -->
+ 
 ### 🛠 Tecnologias<a id="tecnologias"></a>
  As seguintes ferramentas foram usadas na construção do projeto:
  
