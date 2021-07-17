@@ -8,7 +8,7 @@ Tabela de conteúdos
 <!--ts-->
  * [Sobre](#sobre) 
   
- *  * [Documentação] (#documentacao)
+ *  * [Documentação](#documentacao)
  *  * [Pre Requisitos](#pre-requisitos)
  *  * [Executando a aplicação](#rodando)
  * * [Tecnologias](#tecnologias)
